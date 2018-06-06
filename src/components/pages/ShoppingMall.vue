@@ -50,22 +50,39 @@
                 </swiper>
  
             </div>
+        </div>
             <!-- 
             <div><swiperDefault></swiperDefault></div>
             <div><swiperDefault2></swiperDefault2></div> 
             -->
-
-        </div>
-    </div>
+            <floorComponent :floorData="floor1" :floorName="floorName.floor1"></floorComponent>
+            <floorComponent :floorData="floor2" :floorName="floorName.floor2"></floorComponent>
+            <floorComponent :floorData="floor3" :floorName="floorName.floor3"></floorComponent>
+            <!--Hot Area-->
+            <div class="hot-area">
+              <div class="hot-title">热卖商品</div>
+              <div class="hot-goods">
+                  <!--这里需要一个list组件-->
+                      <van-list>
+                        <van-row gutter="20">
+                            <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
+                                <goodsInfoComponent :good="item"></goodsInfoComponent>
+                            </van-col>
+                        </van-row>
+                      </van-list>
+              </div>
+          </div>   
+</div>
 </template>
 <script>
 import axios from "axios";
 import url from "@/serviceAPI.config.js";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
-import swiperDefault from '../swiper/swiperDefault'
-import swiperDefault2 from '../swiper/swiperDefault2'
-
+import swiperDefault from "../swiper/swiperDefault";
+import swiperDefault2 from "../swiper/swiperDefault2";
+import floorComponent from "@/components/component/floorComponent";
+import goodsInfoComponent from "@/components/component/goodsInfoComponent";
 export default {
   created() {
     axios({
@@ -79,6 +96,12 @@ export default {
           this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS;
           this.bannerPicArray = response.data.data.slides;
           this.recommendGoods = response.data.data.recommend;
+          this.floor1 = response.data.data.floor1;
+          this.floor2 = response.data.data.floor2;
+          this.floor3 = response.data.data.floor3;
+          this.floorName = response.data.data.floorName;
+          this.hotGoods = response.data.data.hotGoods;
+          console.log(this.hotGoods);
         }
       })
       .catch(error => {
@@ -94,14 +117,21 @@ export default {
       bannerPicArray: [],
       category: [],
       adBanner: "",
-      recommendGoods: []
+      recommendGoods: [], //推荐商品
+      floor1: [],
+      floor2: [],
+      floor3: [],
+      floorName: {},
+      hotGoods: [] //热卖商品
     };
   },
   components: {
     swiper,
     swiperSlide,
     swiperDefault,
-    swiperDefault2
+    swiperDefault2,
+    floorComponent,
+    goodsInfoComponent
   }
 };
 </script>
@@ -166,6 +196,19 @@ export default {
   font-size: 12px;
   text-align: center;
 }
+/* .hot-title {
+  text-align: center;
+  font-size: 14px;
+  height: 1.8rem;
+  line-height: 1.8rem;
+  background-color: #f0f0f0;
+} */
+.hot-area {
+  text-align: center;
+  font-size: 14px;
+  height: 1.8rem;
+  line-height: 1.8rem;
+} 
 </style>
 
 
