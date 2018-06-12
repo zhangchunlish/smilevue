@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const glob = require('glob')
+const {resolve} = require('path')
+
 const db = "mongodb://localhost/simle-db"
 
 mongoose.Promise = global.Promise
@@ -40,4 +43,7 @@ exports.connect = () => {
       resolve() 
     })
   })
+}
+exports.initSchemas = () =>{
+    glob.sync(resolve(__dirname,'./schema/','**/*.js')).forEach(require)
 }
