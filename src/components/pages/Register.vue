@@ -14,6 +14,7 @@
                 placeholder="请输入用户名"
                 required
                 @click-icon="username = ''"
+                :error-message="usernameErrorMsg"
             />
             <van-field
                 v-model="password"
@@ -21,9 +22,10 @@
                 label="密码"
                 placeholder="请输入密码"
                 required
+                :error-message="passwordErrorMsg"
             />
             <div class="register-button">
-                <van-button type="primary" size="large" @click="axiosRegisterUser" :loading="openLoading">马上注册</van-button>
+                <van-button type="primary" size="large" @click="registerAction" :loading="openLoading">马上注册</van-button>
             </div>
        </div>
     </div>
@@ -37,21 +39,44 @@ export default {
     return {
       username: "",
       password: "",
-      openLoading: false //是否开启用户的Loading
+      openLoading: false, //是否开启用户的Loading
+      usernameErrorMsg: "",
+      passwordErrorMsg: ""
     };
+  },
+  computed:{
+   checkForm() {
+      let isOk = true;
+      if (this.username.length < 5) {
+        this.usernameErrorMsg = "用户名不能小于5位";
+        isOk = false;
+      } else {
+        this.usernameErrorMsg = "";
+      }
+      if (this.password.length < 6) {
+        this.passwordErrorMsg = "密码不能少于6位";
+        isOk = false;
+      } else {
+        this.passwordErrorMsg = "";
+      }
+      return isOk;
+    },
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
+    registerAction(){
+        this.checkForm&&this.axiosRegisterUser()
+    },
     axiosRegisterUser() {
-      this.openLoading=true;
+      this.openLoading = true;
       axios({
         url: url.registerUser,
         method: "post",
         data: {
           userName: this.username,
-          password: this.password
+          password: this.password,
         }
       })
         .then(response => {
@@ -63,13 +88,13 @@ export default {
           } else {
             console.log(response.data.message);
             Toast.fail("注册失败");
-            this.openLoading=false;
+            this.openLoading = false;
           }
         })
         .catch(error => {
           console.log(error);
           Toast.fail("注册失败");
-          this.openLoading=false
+          this.openLoading = false;
         });
     }
   }
