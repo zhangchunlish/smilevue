@@ -170,6 +170,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: baseline;
 }
 .type-bar div {
   padding: 0.3rem;

@@ -17,7 +17,8 @@ let user=require('./appApi/User.js')
 //装载所有子路由
 let router = new Router();
 router.use('/user',user.routes())
-
+let goods = require('./appApi/Goods.js')
+router.use('/goods',goods.routes())
 //加载路由中间件
 app.use(router.routes())
 app.use(router.allowedMethods())
