@@ -4,6 +4,7 @@ import ShoppingMall from '@/components/pages/ShoppingMall'
 import Count from '@/components/vuex/count'
 import Register from '@/components/pages/Register'
 import Login from '@/components/pages/Login'
+import Goods from '@/components/pages/Goods'
 
 Vue.use(Router)
 
@@ -21,6 +22,10 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },{
+      path: '/Goods',
+      name: 'Goods',
+      component: Goods
     },{
       path: '/vuex',
       name: 'Count',
