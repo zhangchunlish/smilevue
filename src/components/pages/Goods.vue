@@ -9,14 +9,16 @@ import url from "@/serviceAPI.config.js";
 export default {
   data() {
     return {
-      goodsId: "775e575ce28a4f89b1dfe2c99eb08ae7",
+      goodsId: '',
       goodsInfo: {}
     };
   },
   created(){
-      this.getInfo()
+       this.goodsId= this.$route.query.goodsId
+       console.log(this.goodsId)
+       this.getInfo()
   },
-  method: {
+  methods: {
     getInfo() {
       axios({
             url: url.getDetailGoodsInfo,
