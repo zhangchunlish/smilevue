@@ -33,11 +33,11 @@ const goodsSchema = new Schema({
     collection:'goods'
 })
 //每次存储数据时都要执行
-goodsSchema.pre('save', function(next){
+// goodsSchema.pre('save', function(next){
    
-})
-goodsSchema.methods={
+// })
+// goodsSchema.methods={
    
-}
+// }
 //发布模型
 mongoose.model('Goods',goodsSchema)
