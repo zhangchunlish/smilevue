@@ -62,7 +62,7 @@ export default {
       })
         .then(response => {
           console.log(response)
-          if (response.data.code == 200 && response.data.message) {
+          if (response.data.status == 200 && response.data.message) {
             this.goodsInfo = response.data.message
           } else {
             Toast("服务器错误，数据取得失败")

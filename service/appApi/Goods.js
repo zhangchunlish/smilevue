@@ -69,25 +69,61 @@ router.get('/insertAllCategorySub',async(ctx)=>{
     ctx.body="开始导入数据"
 })
 //***获取商品详细信息的接口
-router.post('getDetailGoodsInfo',async(ctx)=>{
-    console.log(ctx.request.body.goodsId)
-    let goodsId = ctx.request.body.goodsId
-    const Goods = mongoose.model('Goods')
-    await Goods.findOne({ID:goodsId}).exec().then(async(result)=>{
-        console.log(result)
+router.post('/getDetailGoodsInfo',async(ctx)=>{
+    // console.log(ctx.request.body.goodsId)
+    // let goodsId = ctx.request.body.goodsId
+    // const Goods = mongoose.model('Goods')
+    // await Goods.findOne({ID:goodsId}).exec().then(async(result)=>{
+    //     console.log(result)
+    //     ctx.body={status:200,message:result}
+    // }).catch(error=>{
+    //     ctx.body={status:500,message:error}
+    // })
+    try{
+        let goodsId = ctx.request.body.goodsId
+        const Goods = mongoose.model('Goods')
+        let result=await Goods.findOne({ID:goodsId}).exec()
         ctx.body={status:200,message:result}
-    }).catch(error=>{
+    }catch(err){
+        console.log(err);
+        ctx.body={status:500,message:err}
+    }
+})
+//获取商品分类
+router.get("/getCategoryList",async(ctx)=>{
+    try {
+        const Category = mongoose.model('Category')
+        let result =await Category.find().exec()
+        ctx.body={status:200,message:result}   
+    } catch (error) {
+        cosole.log(error);
         ctx.body={status:500,message:error}
-    })
-    // try{
-    //     let goodsId = ctx.request.body.goodsId
-    //     const Goods = mongoose.model('Goods')
-    //     let result=await Goods.findOne({ID:goodsId}).exec()
-    //     console.log(result);
-    //     ctx.body={code:200,message:result}
-    // }catch(err){
-    //     console.log(err);
-    //     ctx.body={code:500,message:err}
-    // }
+    }
+})
+//获取商品小类
+router.get("/getCategorySubList",async(ctx)=>{
+    try {
+        let categoryId=ctx.request.body.categoryId;
+        //let categoryId=1;
+        const CategorySub = mongoose.model('CategorySub')
+        let result =await CategorySub.find({MALL_CATEGORY_ID:categoryId}).exec()
+        ctx.body={status:200,message:result}   
+    } catch (error) {
+        cosole.log(error);
+        ctx.body={status:500,message:error}
+    }
+})
+//根据商品类别获取商品
+router.get("/getGoodsListByCategorySubId",async(ctx)=>{
+    try{
+        let subCategoryId=ctx.request.body.subCategoryId;
+        const Goods = mongoose.model('Goods')
+        let result=await Goods.find({SUB_ID:subCategoryId}).exec()
+        ctx.body={status:200,message:result}
+    }catch(err){
+        console.log(err);
+        ctx.body={status:500,message:err}
+    }
+
 })
 module.exports=router;
