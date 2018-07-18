@@ -101,7 +101,7 @@ router.get("/getCategoryList",async(ctx)=>{
     }
 })
 //获取商品小类
-router.get("/getCategorySubList",async(ctx)=>{
+router.post("/getCategorySubList",async(ctx)=>{
     try {
         let categoryId=ctx.request.body.categoryId;
         //let categoryId=1;

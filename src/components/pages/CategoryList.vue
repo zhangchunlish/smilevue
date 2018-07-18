@@ -7,13 +7,19 @@
             <van-row>
                 <van-col span="6">
                     <div id="leftNav">
-                        <ul @click="clickCategory(index)" :class="{categoryActive:categoryIndex==index}" v-for="(key,index) in catelist" :key="index">
+                        <ul @click="clickCategory(index,key.ID)" :class="{categoryActive:categoryIndex==index}" v-for="(key,index) in catelist" :key="index">
                             <li>{{key.MALL_CATEGORY_NAME}}</li>
                         </ul>
                     </div>
+                    
                 </van-col>
                 <van-col span="18">
-                    <div id="right">
+                    <div class="tabCategorySub">
+                        <van-tabs v-model="active">
+                            <van-tab v-for="(item, index) in cateSubList" :key="index" :title="item.MALL_SUB_NAME">
+                                
+                            </van-tab>
+                        </van-tabs>
                     </div>
                 </van-col>
             </van-row>
@@ -28,7 +34,9 @@ export default {
   data() {
     return {
       catelist: [],
-      categoryIndex: 0
+      cateSubList:[],
+      categoryIndex: 0,
+      active:1,
     };
   },
   created() {
@@ -39,8 +47,27 @@ export default {
     document.getElementById("leftNav").style.height = winHeight - 46 + "px";
   },
   methods: {
-    clickCategory(index) {
+    clickCategory(index,categoryId) {
       this.categoryIndex = index;
+      this.getCategorySubByCategoryId(categoryId);
+    },
+    getCategorySubByCategoryId(categoryId){
+        axios({
+            url:url.getCategorySubList,
+            method:'post',
+            data:{
+                categoryId:categoryId,
+            }
+        }).then(response=>{
+            if(response.data.status==200&&response.data.message){
+                this.cateSubList=response.data.message;
+                this.active=0;
+            }else {
+                Toast("服务器错误，数据取得失败");
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
     },
     getCategory() {
       axios({
@@ -50,6 +77,7 @@ export default {
         .then(response => {
           if (response.data.status == 200 && response.data.message) {
             this.catelist = response.data.message;
+            this.getCategorySubByCategoryId(this.catelist[0].ID)
           } else {
             Toast("服务器错误，数据取得失败");
           }
