@@ -114,11 +114,14 @@ router.post("/getCategorySubList",async(ctx)=>{
     }
 })
 //根据商品类别获取商品
-router.get("/getGoodsListByCategorySubId",async(ctx)=>{
+router.post("/getGoodsListByCategorySubId",async(ctx)=>{
     try{
         let subCategoryId=ctx.request.body.subCategoryId;
+        let pageno=ctx.request.body.pageno;
+        let pagesize=ctx.request.body.pagesize;
+        let start=(pageno-1)*pagesize;
         const Goods = mongoose.model('Goods')
-        let result=await Goods.find({SUB_ID:subCategoryId}).exec()
+        let result=await Goods.find({SUB_ID:subCategoryId}).skip(start).limit(pagesize).exec()
         ctx.body={status:200,message:result}
     }catch(err){
         console.log(err);

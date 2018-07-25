@@ -9,6 +9,8 @@ const URL ={
     getDetailGoodsInfo:LOCALURL+'goods/getDetailGoodsInfo',   //商品详情接口
     getCategoryList:LOCALURL+'goods/getCategoryList',         //得到大类信息
     getCategorySubList:LOCALURL+'goods/getCategorySubList',   //得到小类信息
+    getGoodsListByCategorySubId:LOCALURL+'goods/getGoodsListByCategorySubId',   //根据商品类别获取商品
+
 
 }
 
