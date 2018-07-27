@@ -25,11 +25,18 @@
                     <div id="list-div">
                           <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
                               <van-list v-model="loading" :finished="finished" @load="onLoad">
-                                <van-row gutter="20">
+                                <!-- <van-row gutter="20">
                                     <van-col span="12" v-for="(item,index) in goodsList" :key="index">
                                         <goodsInfoComponent :good="{name:item.name,image:item.IMAGE1,price:item.ORI_PRICE,mallprice:item.PRESENT_PRICE}" class="list-item"></goodsInfoComponent>
                                     </van-col>
-                                </van-row>
+                                </van-row> -->
+                                <div class="list-item" v-for="(item,index) in goodsList" :key="index">
+                                    <div class="list-item-img"><img :src="item.IMAGE1" width="100%" :onerror="errorImg"/></div>
+                                    <div class="list-item-text">
+                                        <div>{{item.name}}</div>
+                                        <div class="">￥{{item.ORI_PRICE}}</div>
+                                    </div>
+                                </div>
                               </van-list>
                           </van-pull-refresh>
                     </div>
@@ -58,7 +65,9 @@ export default {
       active: 0,
       loading: false, //上拉加载使用
       finished: false, //下拉加载是否没有数据了
-      isRefresh: false //下拉加载
+      isRefresh: false, //下拉加载
+      errorImg:'this.src="' + require('@/assets/images/errorimg.png') + '"'   ,  //错误图片显示路径
+
     };
   },
   created() {
@@ -72,17 +81,22 @@ export default {
   methods: {
     onLoad() {
       setTimeout(() => {
-        let subCategoryId = this.cateSubList[this.categorySubIndex].ID
-          ? this.cateSubList[this.categorySubIndex].ID
-          : this.cateSubList[0].ID;
-        this.getGoodsListByCategorySubId(subCategoryId);
+        if(this.cateSubList.length){
+          let subCategoryId = this.cateSubList[this.categorySubIndex].ID
+            ? this.cateSubList[this.categorySubIndex].ID
+            : this.cateSubList[0].ID;
+          this.getGoodsListByCategorySubId(subCategoryId);
+        }
       }, 500);
     },
     onRefresh() {
       setTimeout(() => {
+        console.log('zcl')
         this.isRefresh = false;
-        //this.goodsList=[];
-        //this.onLoad();
+        this.finished=false;
+        this.goodsList=[];
+        this.pageno=1;
+        this.onLoad();
       }, 500);
     },
     clickCategory(index, title) {
@@ -192,7 +206,7 @@ export default {
   overflow: scroll;
 }
 
-/* .list-item {
+ .list-item {
   display: flex;
   flex-direction: row;
   font-size: 0.8rem;
@@ -208,5 +222,5 @@ export default {
   flex: 16;
   margin-top: 10px;
   margin-left: 10px;
-} */
+} 
 </style>
