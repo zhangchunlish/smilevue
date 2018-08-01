@@ -43,7 +43,9 @@ export default {
     };
   },
   created() {
-    this.goodsId = this.$route.query.goodsId
+    //this.goodsId = this.$route.query.goodsId
+    this.goodsId= this.$route.query.goodsId ? this.$route.query.goodsId:this.$route.params.goodsId
+
     this.getInfo()
   },
   filters: {

@@ -30,7 +30,7 @@
                                         <goodsInfoComponent :good="{name:item.name,image:item.IMAGE1,price:item.ORI_PRICE,mallprice:item.PRESENT_PRICE}" class="list-item"></goodsInfoComponent>
                                     </van-col>
                                 </van-row> -->
-                                <div class="list-item" v-for="(item,index) in goodsList" :key="index">
+                                <div class="list-item" @click="goGoodsInfo(item.ID)" v-for="(item,index) in goodsList" :key="index">
                                     <div class="list-item-img"><img :src="item.IMAGE1" width="100%" :onerror="errorImg"/></div>
                                     <div class="list-item-text">
                                         <div>{{item.name}}</div>
@@ -98,6 +98,9 @@ export default {
         this.pageno=1;
         this.onLoad();
       }, 500);
+    },
+    goGoodsInfo(id){
+      this.$router.push({name:'Goods',params:{goodsId:id}})
     },
     clickCategory(index, title) {
       this.categoryIndex = index;
