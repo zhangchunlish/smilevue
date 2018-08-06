@@ -32,7 +32,7 @@
         </div>
         <!--显示总金额-->
         <div class="totalMoney">        
-            商品总价：￥ {{totalMoney | moneyFilter}}        
+            商品总价：¥{{totalMoney | moneyFilter}}        
         </div>
     </div>
 </template>
