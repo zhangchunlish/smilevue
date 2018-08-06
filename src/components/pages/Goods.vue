@@ -90,7 +90,7 @@ export default {
         //重新组成添加到购物车的信息
         let newGoodsInfo = {
           goodsId: this.goodsInfo.ID,
-          Name: this.goodsInfo.Name,
+          Name: this.goodsInfo.NAME,
           price: this.goodsInfo.PRESENT_PRICE,
           image: this.goodsInfo.IMAGE1,
           count: 1
