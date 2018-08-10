@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="main-div">
-            <router-view></router-view>
+            <transition name="fade-transition" mode="out-in">
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
+            </transition>
         </div>
         <van-tabbar v-model="active" @change="changeTabbar(active)">
             <van-tabbar-item icon="shop">首页</van-tabbar-item>
@@ -18,10 +22,23 @@
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      nowPath: ""
     };
   },
+  created() {
+    this.changeTabbarActive();
+  },
   methods: {
+    changeTabbarActive() {
+      this.nowPath = this.$route.path;
+      console.log(this.nowPath);
+      if (this.nowPath == "/Cart") {
+        this.active = 2;
+      } else if (this.nowPath == "/CategoryList") {
+        this.active = 1;
+      }
+    },
     changeTabbar(active) {
       switch (active) {
         case 0:
